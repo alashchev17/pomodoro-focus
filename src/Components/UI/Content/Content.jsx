@@ -5,9 +5,9 @@ import ContentTab from "./ContentTab.jsx";
 const Content = ({ updateProgress, updateBackground }) => {
   const cyclesAmountUntilLongBreak = 4; // hardcoded amount of cycles before a long break starts
   const [mode, setMode] = useState("focus");
-  const [settedMinutesFocus, setSettedMinutesFocus] = useState(25);
-  const [settedMinutesBreak, setSettedMinutesBreak] = useState(5);
-  const [settedMinutesLongBreak, setSettedMinutesLongBreak] = useState(15);
+  const [settedMinutesFocus, setSettedMinutesFocus] = useState(25); // initialState – from settings input
+  const [settedMinutesBreak, setSettedMinutesBreak] = useState(5); // initialState – from settings input
+  const [settedMinutesLongBreak, setSettedMinutesLongBreak] = useState(15); // initialState – from settings input
   const [activeTab, setActiveTab] = useState("Pomodoro");
 
   const [activeButtonClassName, setActiveButtonClassName] = useState("");
