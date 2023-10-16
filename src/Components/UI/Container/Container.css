@@ -1,0 +1,18 @@
+.container {
+    max-width: 620px;
+    margin: 0 auto;
+    border-radius: 25px;
+    transition: 0.3s background-color ease-in-out;
+}
+
+.container.focus {
+    background-color: #B84A4C;
+}
+
+.container.break {
+    background-color: #3C8589;
+}
+
+.container.longBreak {
+    background-color: #3C7195;
+}

@@ -1,0 +1,25 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 23px;
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+    position: relative;
+}
+
+.header__link {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.header__progress {
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    border-radius: 4px;
+    background-color: #fff;
+}
