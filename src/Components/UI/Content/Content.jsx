@@ -39,11 +39,17 @@ const Content = ({ updateProgress, updateBackground }) => {
         setSlogan("Time for a break");
         setMinutes(settedMinutesBreak);
         break;
-      default:
+      case "longBreak":
         setMode(mode);
         setSlogan("Good job! Time for a long break!");
         setMinutes(settedMinutesLongBreak);
     }
+  };
+
+  const stopTimer = () => {
+    setMinutes(0);
+    setSeconds(0);
+    updateProgress(0);
   };
 
   const handleTimer = () => {
@@ -139,8 +145,11 @@ const Content = ({ updateProgress, updateBackground }) => {
   };
 
   const handleTabClick = (tabMode, tabText) => {
+    if (activeButtonClassName === "active") return;
     setActiveTab(tabText);
     onModeChange(tabMode);
+    updateProgress(0);
+    setSeconds(0);
   };
 
   return (
