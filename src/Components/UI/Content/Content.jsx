@@ -158,7 +158,7 @@ const Content = ({ updateProgress, updateBackground }) => {
     let interval = setInterval(() => {
       clearInterval(interval);
       handleTimer();
-    }, 10);
+    }, 1000);
     return () => {
       clearInterval(interval);
     };
