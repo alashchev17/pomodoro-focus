@@ -3,7 +3,7 @@ import { useState } from "react";
 const ContentTab = ({ text, isActive, onTabClick, mode }) => {
   const handleClick = (event) => {
     event.preventDefault();
-    onTabClick(mode, text);
+    onTabClick(mode, text, isActive);
   };
   return (
     <a

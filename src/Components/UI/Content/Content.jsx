@@ -9,7 +9,9 @@ const Content = ({ updateProgress, updateBackground }) => {
   const [playPauseSound] = useSound("/stop-button-sound.mp3");
   const [playStopTimerSound] = useSound("/stop-timer-sound.mp3");
 
-  const cyclesAmountUntilLongBreak = 4; // hardcoded amount of cycles before a long break starts
+  const [cyclesAmountUntilLongBreak, setCyclesAmountUntilLongBreak] =
+    useState(4); // hardcoded amount of cycles before a long break starts
+
   const [mode, setMode] = useState("focus");
   const [settedMinutesFocus, setSettedMinutesFocus] = useState(25); // initialState – from settings input
   const [settedMinutesBreak, setSettedMinutesBreak] = useState(5); // initialState – from settings input
@@ -197,8 +199,21 @@ const Content = ({ updateProgress, updateBackground }) => {
     }
   };
 
-  const handleTabClick = (tabMode, tabText) => {
-    if (activeButtonClassName === "active") return;
+  const onClickCounterHandler = (event) => {
+    event.preventDefault();
+    if (cyclesCounter !== 1) {
+      if (confirm("Are you sure that you want to reset a counter?")) {
+        setCyclesCounter(1);
+      } else {
+        return;
+      }
+    } else {
+      return;
+    }
+  };
+
+  const handleTabClick = (tabMode, tabText, isActive) => {
+    if (activeButtonClassName === "active" || isActive) return;
     setActiveTab(tabText);
     onModeChange(tabMode);
     notificationsHandle(slogan);
@@ -237,7 +252,9 @@ const Content = ({ updateProgress, updateBackground }) => {
           {activeButtonClassName === "active" ? "Pause" : "Start"}
         </button>
       </div>
-      <span className="content__counter">#{cyclesCounter}</span>
+      <a href="#" onClick={onClickCounterHandler} className="content__counter">
+        #{cyclesCounter}
+      </a>
       <span className="content__slogan">{slogan}</span>
     </div>
   );
