@@ -5,9 +5,9 @@ import "./Content.css";
 import ContentTab from "./ContentTab.jsx";
 
 const Content = ({ updateProgress, updateBackground }) => {
-  const [playStartSound] = useSound("/start-button-sound.mp3");
-  const [playPauseSound] = useSound("/stop-button-sound.mp3");
-  const [playStopTimerSound] = useSound("/stop-timer-sound.mp3");
+  const [playStartSound] = useSound("./start-button-sound.mp3"); // path to deploy: "./start-button-sound.mp3"
+  const [playPauseSound] = useSound("./stop-button-sound.mp3"); // path to deploy: "./stop-button-sound.mp3"
+  const [playStopTimerSound] = useSound("./stop-timer-sound.mp3"); // path to deploy: "./stop-timer-sound.mp3"
 
   const [cyclesAmountUntilLongBreak, setCyclesAmountUntilLongBreak] =
     useState(4); // hardcoded amount of cycles before a long break starts
