@@ -9,16 +9,7 @@ const Header = (props) => {
         href="#"
         className="header__link"
         onClick={() => {
-          alert(
-            `
-settingsObject = {
-  cyclesAmountUntilLongBreak: 4,
-  settedMinutesFocus: 25,
-  settedMinutesBreak: 5,
-  settedMinutesLongBreak: 15
-};
-            `,
-          );
+          props.updateModal(true);
         }}
       >
         Settings

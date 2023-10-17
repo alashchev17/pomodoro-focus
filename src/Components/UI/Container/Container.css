@@ -1,8 +1,10 @@
 .container {
+    position: relative;
     max-width: 620px;
     margin: 0 auto;
     border-radius: 25px;
     transition: 0.3s background-color ease-in-out;
+    overflow: hidden;
 }
 
 .container.focus {

@@ -18,3 +18,8 @@ a {
     text-decoration: none;
     font: inherit;
 }
+
+input, button {
+    border: unset;
+    outline: none;
+}

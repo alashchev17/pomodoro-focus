@@ -4,18 +4,20 @@ import useSound from "use-sound";
 import "./Content.css";
 import ContentTab from "./ContentTab.jsx";
 
-const Content = ({ updateProgress, updateBackground }) => {
-  const [playStartSound] = useSound("./start-button-sound.mp3"); // path to deploy: "./start-button-sound.mp3"
-  const [playPauseSound] = useSound("./stop-button-sound.mp3"); // path to deploy: "./stop-button-sound.mp3"
-  const [playStopTimerSound] = useSound("./stop-timer-sound.mp3"); // path to deploy: "./stop-timer-sound.mp3"
+const Content = ({ updateProgress, updateBackground, updatedSettingsData }) => {
+  /* STATES FOR SOUNDS */
+  const [playStartSound] = useSound("./src/assets/start-button-sound.mp3"); // path to deploy: "./start-button-sound.mp3"
+  const [playPauseSound] = useSound("./src/assets/stop-button-sound.mp3"); // path to deploy: "./stop-button-sound.mp3"
+  const [playStopTimerSound] = useSound("./src/assets/stop-timer-sound.mp3"); // path to deploy: "./stop-timer-sound.mp3"
 
+  /* STATES FOR DYNAMIC DATA OF TIMER'S SETTINGS */
   const [cyclesAmountUntilLongBreak, setCyclesAmountUntilLongBreak] =
-    useState(4); // hardcoded amount of cycles before a long break starts
-
-  const [mode, setMode] = useState("focus");
+    useState(4); // initialState – from settings input
   const [settedMinutesFocus, setSettedMinutesFocus] = useState(25); // initialState – from settings input
   const [settedMinutesBreak, setSettedMinutesBreak] = useState(5); // initialState – from settings input
   const [settedMinutesLongBreak, setSettedMinutesLongBreak] = useState(15); // initialState – from settings input
+
+  const [mode, setMode] = useState("focus");
   const [activeTab, setActiveTab] = useState("Pomodoro");
 
   const [activeButtonClassName, setActiveButtonClassName] = useState("");
@@ -39,6 +41,12 @@ const Content = ({ updateProgress, updateBackground }) => {
         throw new Error("Permission not granted.");
       }
     });
+  };
+
+  const updateSettingsData = (updatedSettingsData) => {
+    setSettedMinutesFocus(updatedSettingsData.focusMinutes);
+    setSettedMinutesBreak(updatedSettingsData.breakMinutes);
+    setSettedMinutesLongBreak(updatedSettingsData.longBreakMinutes);
   };
 
   const calculateTotalDuration = () => {
@@ -185,6 +193,17 @@ const Content = ({ updateProgress, updateBackground }) => {
     notificationsHandle(slogan);
   }, [slogan]);
 
+  useEffect(() => {
+    // Обновляем состояние только если updatedSettingsData не пустой объект
+    if (
+      Object.keys(updatedSettingsData).length === 0 &&
+      updatedSettingsData.constructor === Object
+    ) {
+      return;
+    }
+    updateSettingsData(updatedSettingsData);
+  }, [updatedSettingsData]);
+
   const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
 
@@ -218,6 +237,7 @@ const Content = ({ updateProgress, updateBackground }) => {
     onModeChange(tabMode);
     notificationsHandle(slogan);
     stopTimer();
+    // console.log(updatedSettingsData);
   };
 
   return (
