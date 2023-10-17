@@ -67,7 +67,7 @@ const Content = ({ updateProgress, updateBackground }) => {
         break;
       case "break":
         setMode(mode);
-        setSlogan("Time for a break");
+        setSlogan("Time for a break!");
         setMinutes(settedMinutesBreak);
         notificationsHandle(slogan);
         break;
