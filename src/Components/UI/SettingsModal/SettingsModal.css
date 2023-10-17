@@ -56,6 +56,10 @@
     flex-direction: column;
 }
 
+.settings-modal__block:not(:last-child) {
+    margin-bottom: 30px;
+}
+
 .settings-modal__category {
     color: #BBBBBB;
     font-size: 14px;

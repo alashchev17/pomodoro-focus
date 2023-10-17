@@ -47,6 +47,7 @@ const Content = ({ updateProgress, updateBackground, updatedSettingsData }) => {
     setSettedMinutesFocus(updatedSettingsData.focusMinutes);
     setSettedMinutesBreak(updatedSettingsData.breakMinutes);
     setSettedMinutesLongBreak(updatedSettingsData.longBreakMinutes);
+    setCyclesAmountUntilLongBreak(updatedSettingsData.cyclesUntilLongBreak);
   };
 
   const calculateTotalDuration = () => {

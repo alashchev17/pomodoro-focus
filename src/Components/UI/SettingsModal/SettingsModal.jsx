@@ -16,10 +16,12 @@ const SettingsModal = (props) => {
   const [focusMinutes, setFocusMinutes] = useState(25);
   const [breakMinutes, setBreakMinutes] = useState(5);
   const [longBreakMinutes, setLongBreakMinutes] = useState(15);
+  const [cyclesUntilLongBreak, setCyclesUntilLongBreak] = useState(4);
   let settingsData = {
     focusMinutes: focusMinutes,
     breakMinutes: breakMinutes,
     longBreakMinutes: longBreakMinutes,
+    cyclesUntilLongBreak: cyclesUntilLongBreak,
   };
 
   const focusMinutesChangeHandler = (newValue) => {
@@ -30,6 +32,10 @@ const SettingsModal = (props) => {
   };
   const longBreakMinutesChangeHandler = (newValue) => {
     setLongBreakMinutes(newValue);
+  };
+
+  const cyclesUntilLongBreakHandler = (newValue) => {
+    setCyclesUntilLongBreak(newValue);
   };
 
   return (
@@ -89,12 +95,21 @@ const SettingsModal = (props) => {
             </div>
           </div>
           <div className="settings-modal__block">
-            {/* вёрстка секции под циклы */}
+            <h2 className="settings-modal__category">
+              Amount of cycles until long break
+            </h2>
+            <h6 className="settings-modal__subcategory">Cycles (amount)</h6>
+            <div className="settings-modal__wrapper">
+              <SettingsModalInput
+                label="Amount"
+                value={cyclesUntilLongBreak}
+                onInputChange={cyclesUntilLongBreakHandler}
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 };
-
 export default SettingsModal;
