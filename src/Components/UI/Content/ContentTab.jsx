@@ -1,7 +1,8 @@
 import { useState } from "react";
 
 const ContentTab = ({ text, isActive, onTabClick, mode }) => {
-  const handleClick = () => {
+  const handleClick = (event) => {
+    event.preventDefault();
     onTabClick(mode, text);
   };
   return (

@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
+import addNotification from "react-push-notification";
+import useSound from "use-sound";
 import "./Content.css";
 import ContentTab from "./ContentTab.jsx";
 
 const Content = ({ updateProgress, updateBackground }) => {
+  const [playStartSound] = useSound("/start-button-sound.mp3");
+  const [playPauseSound] = useSound("/stop-button-sound.mp3");
+  const [playStopTimerSound] = useSound("/stop-timer-sound.mp3");
+
   const cyclesAmountUntilLongBreak = 4; // hardcoded amount of cycles before a long break starts
   const [mode, setMode] = useState("focus");
   const [settedMinutesFocus, setSettedMinutesFocus] = useState(25); // initialState – from settings input
@@ -16,15 +22,39 @@ const Content = ({ updateProgress, updateBackground }) => {
   const [cyclesCounter, setCyclesCounter] = useState(1);
   const [slogan, setSlogan] = useState("Time to focus!");
 
+  const requestPermission = () => {
+    return new Promise((resolve, reject) => {
+      const permissionResult = Notification.requestPermission((result) => {
+        // Поддержка устаревшей версии с функцией обратного вызова.
+        resolve(result);
+      });
+
+      if (permissionResult) {
+        permissionResult.then(resolve, reject);
+      }
+    }).then((permissionResult) => {
+      if (permissionResult !== "granted") {
+        throw new Error("Permission not granted.");
+      }
+    });
+  };
+
   const calculateTotalDuration = () => {
     switch (mode) {
       case "focus":
         return settedMinutesFocus * 60;
       case "break":
         return settedMinutesBreak * 60;
-      default:
+      case "longBreak":
         return settedMinutesLongBreak * 60;
     }
+  };
+
+  const notificationsHandle = (slogan) => {
+    addNotification({
+      title: slogan,
+      native: true, // when using native, your OS will handle theming.
+    });
   };
 
   const onModeChange = (mode) => {
@@ -33,21 +63,23 @@ const Content = ({ updateProgress, updateBackground }) => {
         setMode(mode);
         setSlogan("Time to focus!");
         setMinutes(settedMinutesFocus);
+        notificationsHandle(slogan);
         break;
       case "break":
         setMode(mode);
         setSlogan("Time for a break");
         setMinutes(settedMinutesBreak);
+        notificationsHandle(slogan);
         break;
       case "longBreak":
         setMode(mode);
         setSlogan("Good job! Time for a long break!");
         setMinutes(settedMinutesLongBreak);
+        notificationsHandle(slogan);
     }
   };
 
   const stopTimer = () => {
-    setMinutes(0);
     setSeconds(0);
     updateProgress(0);
   };
@@ -79,6 +111,7 @@ const Content = ({ updateProgress, updateBackground }) => {
     setSeconds(0);
     updateProgress(0);
     setActiveButtonClassName("");
+    playStopTimerSound();
 
     if (mode === "focus") {
       handleFocusEnd();
@@ -96,10 +129,12 @@ const Content = ({ updateProgress, updateBackground }) => {
       setMode("longBreak");
       setSlogan("Great job! Time for a long break!");
       setMinutes(settedMinutesLongBreak);
+      setActiveTab("Long Break");
     } else {
       setMode("break");
       setSlogan("Time for a break!");
       setMinutes(settedMinutesBreak);
+      setActiveTab("Short Break");
     }
   };
 
@@ -108,6 +143,7 @@ const Content = ({ updateProgress, updateBackground }) => {
     setCyclesCounter(cyclesCounter + 1);
     setMode("focus");
     setSlogan("Time to focus!");
+    setActiveTab("Pomodoro");
   };
 
   const handleLongBreakEnd = () => {
@@ -115,14 +151,17 @@ const Content = ({ updateProgress, updateBackground }) => {
     setSlogan("Time to focus!");
     setMinutes(settedMinutesFocus);
     setCyclesCounter(cyclesCounter + 1);
+    setActiveTab("Pomodoro");
   };
 
   const startTimer = () => {
     let interval = setInterval(() => {
       clearInterval(interval);
       handleTimer();
-    }, 1000);
-    return () => clearInterval(interval);
+    }, 10);
+    return () => {
+      clearInterval(interval);
+    };
   };
 
   useEffect(() => {
@@ -133,7 +172,16 @@ const Content = ({ updateProgress, updateBackground }) => {
 
   useEffect(() => {
     updateBackground(mode);
-  }, [mode, updateBackground]);
+    document.title = `${timerMinutes}:${timerSeconds} - ${slogan}`;
+  }, [mode, updateBackground, updateProgress]);
+
+  useEffect(() => {
+    requestPermission();
+  }, []);
+
+  useEffect(() => {
+    notificationsHandle(slogan);
+  }, [slogan]);
 
   const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
@@ -142,14 +190,19 @@ const Content = ({ updateProgress, updateBackground }) => {
 
   const onClickButtonHandler = () => {
     setActiveButtonClassName(activeButtonClassName ? "" : "active");
+    if (activeButtonClassName === "active") {
+      playPauseSound();
+    } else {
+      playStartSound();
+    }
   };
 
   const handleTabClick = (tabMode, tabText) => {
     if (activeButtonClassName === "active") return;
     setActiveTab(tabText);
     onModeChange(tabMode);
-    updateProgress(0);
-    setSeconds(0);
+    notificationsHandle(slogan);
+    stopTimer();
   };
 
   return (

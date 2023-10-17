@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Notifications } from "react-push-notification";
 import Container from "./Components/UI/Container/Container.jsx";
 import Header from "./Components/UI/Header/Header.jsx";
 import Content from "./Components/UI/Content/Content.jsx";
@@ -18,13 +19,16 @@ const App = () => {
   const containerClasses = `container ${background}`;
 
   return (
-    <Container className={containerClasses}>
-      <Header progress={progress} />
-      <Content
-        updateProgress={updateProgress}
-        updateBackground={updateBackground}
-      />
-    </Container>
+    <>
+      <Notifications />
+      <Container className={containerClasses}>
+        <Header progress={progress} />
+        <Content
+          updateProgress={updateProgress}
+          updateBackground={updateBackground}
+        />
+      </Container>
+    </>
   );
 };
 
