@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import addNotification from "react-push-notification";
 import useSound from "use-sound";
 import "./Content.css";
@@ -6,9 +6,9 @@ import ContentTab from "./ContentTab.jsx";
 
 const Content = ({ updateProgress, updateBackground, updatedSettingsData }) => {
   /* STATES FOR SOUNDS */
-  const [playStartSound] = useSound("./src/assets/start-button-sound.mp3"); // path to deploy: "./start-button-sound.mp3"
-  const [playPauseSound] = useSound("./src/assets/stop-button-sound.mp3"); // path to deploy: "./stop-button-sound.mp3"
-  const [playStopTimerSound] = useSound("./src/assets/stop-timer-sound.mp3"); // path to deploy: "./stop-timer-sound.mp3"
+  const [playStartSound] = useSound("start-button-sound.mp3"); // path to deploy: "./start-button-sound.mp3"
+  const [playPauseSound] = useSound("stop-button-sound.mp3"); // path to deploy: "./stop-button-sound.mp3"
+  const [playStopTimerSound] = useSound("stop-timer-sound.mp3"); // path to deploy: "./stop-timer-sound.mp3"
 
   /* STATES FOR DYNAMIC DATA OF TIMER'S SETTINGS */
   const [cyclesAmountUntilLongBreak, setCyclesAmountUntilLongBreak] =
@@ -175,6 +175,11 @@ const Content = ({ updateProgress, updateBackground, updatedSettingsData }) => {
     };
   };
 
+  // when componentDidMount
+  useEffect(() => {
+    requestPermission();
+  }, []);
+
   useEffect(() => {
     if (activeButtonClassName === "active") {
       startTimer();
@@ -185,10 +190,6 @@ const Content = ({ updateProgress, updateBackground, updatedSettingsData }) => {
     updateBackground(mode);
     document.title = `${timerMinutes}:${timerSeconds} - ${slogan}`;
   }, [mode, updateBackground, updateProgress]);
-
-  useEffect(() => {
-    requestPermission();
-  }, []);
 
   useEffect(() => {
     notificationsHandle(slogan);
@@ -244,7 +245,6 @@ const Content = ({ updateProgress, updateBackground, updatedSettingsData }) => {
   return (
     <div className="content">
       <div className="content__timer">
-        {/* JSX-код, до секции с табами */}
         <div className="content__tabs">
           <ContentTab
             text="Pomodoro"
@@ -265,7 +265,6 @@ const Content = ({ updateProgress, updateBackground, updatedSettingsData }) => {
             onTabClick={handleTabClick}
           />
         </div>
-        {/* JSX-код, после секции с табами */}
         <span className="content__timer-clock">
           {timerMinutes}:{timerSeconds}
         </span>

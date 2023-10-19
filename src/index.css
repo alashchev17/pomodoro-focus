@@ -1,3 +1,17 @@
+@font-face {
+    font-family: "ArialRounded";
+    font-display: swap;
+    src: url("/fonts/ArialRounded/Arial_Rounded_MT.ttf")
+    format("truetype");
+}
+@font-face {
+    font-family: "ArialRounded";
+    font-display: swap;
+    src: url('/fonts/ArialRounded/Arial-Rounded-MT-Bold.ttf')
+    format("truetype");
+    font-weight: bold;
+}
+
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -5,7 +19,8 @@
 body {
     background-color: #2a2323;
     color: white;
-    font-family: "Arial Rounded MT Bold", -apple-system;
+    font-family: "ArialRounded", -apple-system, sans-serif;
+    font-weight: 400;
     display: flex;
     align-items: center;
     justify-content: center;
