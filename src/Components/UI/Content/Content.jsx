@@ -6,9 +6,9 @@ import ContentTab from "./ContentTab.jsx";
 
 const Content = ({ updateProgress, updateBackground, updatedSettingsData }) => {
   /* STATES FOR SOUNDS */
-  const [playStartSound] = useSound("start-button-sound.mp3"); // path to deploy: "./start-button-sound.mp3"
-  const [playPauseSound] = useSound("stop-button-sound.mp3"); // path to deploy: "./stop-button-sound.mp3"
-  const [playStopTimerSound] = useSound("stop-timer-sound.mp3"); // path to deploy: "./stop-timer-sound.mp3"
+  const [playStartSound] = useSound("start-button-sound.mp3");
+  const [playPauseSound] = useSound("stop-button-sound.mp3");
+  const [playStopTimerSound] = useSound("stop-timer-sound.mp3");
 
   /* STATES FOR DYNAMIC DATA OF TIMER'S SETTINGS */
   const [cyclesAmountUntilLongBreak, setCyclesAmountUntilLongBreak] =
